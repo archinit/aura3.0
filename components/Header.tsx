@@ -1,14 +1,21 @@
+'use client'
+
 import Link from "next/link"
-import { AudioWaveform } from "lucide-react"
+import { AudioWaveform, Menu, X } from "lucide-react"
 import { ThemeToggle } from "./ThemeToggle"
 import { SignInButton } from "./SignInButton"
+import { useState } from "react"
+import { Button } from "./ui/button"
 
 export const Header = () => {
 
     const navItems = [
         { href: "/features", label:"Features" },
         { href: "/about", label:"About" },
- ]
+    ];
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+
     return <div className="w-full fixed top-0 z-50 bg-background/95 backdrop-blur-lg">
         <div className="absolute inset-0 border-b border-primary/10"></div>
         <header className="relative max-w-full px-10 ">
@@ -43,9 +50,37 @@ export const Header = () => {
                     <div className="flex items-center gap-3">
                         <ThemeToggle/>
                         <SignInButton/>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="md:hidden"
+                            onClick={() => setIsMenuOpen(!isMenuOpen) }
+                        >
+                            {isMenuOpen ? (
+                                <X className="h-5 w-5" />
+                            ) : (
+                                <Menu className="h-5 w-5"/>
+                            )}
+                        </Button>
                     </div>
                 </div>
             </div>
         </header>
+        {/* mobilemenu */}
+        {isMenuOpen && (
+            <div className="md:hidden border-t border-primary/10 relative">
+                <nav className="flex flex-col space-y-1 py-4">
+                    {navItems.map((item) => (
+                        <Link
+                                key={item.href}
+                                href={item.href}
+                                className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-primary/5 rounded-md transition-colors" 
+                                >
+                                    {item.label}
+                                </Link>
+                    ))}
+                </nav>
+            </div>
+        )}
     </div>
 }
