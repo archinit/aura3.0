@@ -33,7 +33,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-background/80 backdrop-blur-3xl"/>
       </div>
 
-      <Ripple className="opacity-100 dark:opacity-90"></Ripple>
+      {/* background ripple */}
+      <Ripple className="opacity-80"></Ripple>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -41,6 +42,7 @@ export default function Home() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative space-y-8 text-center"
       >
+        {/* badge */}
           <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm border border-primary/20 bg-primary/5 backdrop-blur-sm hover:border-primary/40 transition-all duration-300">
             <Waves className="w-4 h-4 animate-wave text-primary" />
             <span className="relative text-foreground/90 dark:text-foreground after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary/30 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300">
@@ -48,6 +50,7 @@ export default function Home() {
             </span>
           </div>
 
+        {/* heading */}
            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-plus-jakarta tracking-tight">
             <span className="inline-block bg-gradient-to-r from-primary via-primary/90 to-secondary bg-clip-text text-transparent [text-shadow:_0_1px_0_rgb(0_0_0_/_20%)] hover:to-primary transition-all duration-300">
               Find Peace
@@ -57,6 +60,14 @@ export default function Home() {
               of Mind
             </span>
           </h1>
+
+            {/* description */}
+          <p className="max-w-[600px] mx-auto text-base md:text-lg text-muted-foreground leading-relaxed tracking-wide">
+            Experience a new way of emotional support. Our AI companion is here
+            to listen, understand, and guide you through life's journey.
+          </p>
+
+
       </motion.div>
     </section>
   </div>
