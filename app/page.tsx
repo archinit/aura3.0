@@ -3,16 +3,18 @@
 import { Ripple } from "@/components/magicui/ripple";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
-import { Waves } from "lucide-react";
+import { ArrowRight, Waves } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 
   const emotions = [
-    {value:0, label:  "😔 Down", color:"from-blue-500/50"},
-    {value:25, label:  "😊 Content", color:"from-green-500/50"},
-    {value:50, label:  "😌 Peaceful", color:"from-purple-500/50"},
-    {value:75, label:  "🤗 Happy", color:"from-yellow-500/50"},
-    {value:100, label:  "🤩 Excited", color:"from-pink-500/50"},
+    {value:0, label:  "😔 Down", color:"from-blue-500/60"},
+    {value:25, label:  "😊 Content", color:"from-green-500/60"},
+    {value:50, label:  "😌 Peaceful", color:"from-purple-500/60"},
+    {value:75, label:  "🤗 Happy", color:"from-yellow-500/60"},
+    {value:100, label:  "🤩 Excited", color:"from-pink-500/60"},
   ];
 
   const [emotion, setEmotion] = useState(50);
@@ -26,11 +28,11 @@ export default function Home() {
 
 
   return <div className="flex flex-col min-h-screen overflow-hidden ">
-    <section className="relative min-h-[90vh] mt-20 flex flex-col items-center justify-center py-12 px-4">
+    <section className="relative min-h-[90vh] mt-18 flex flex-col items-center justify-center py-12 px-4">
       <div>
         <div className={`absolute w-[600px] h-[600px] rounded-full blur-3xl top-0 -left-20 transition-all duration-700 ease-in-out bg-gradient-to-r ${currentEmotion.color} to-transparent opacity-60`} />
         <div className="absolute w-[500px] h-[500px] rounded-full bg-secondary/10 blur-3xl bottom-0 right-0 animate-pulse delay-700"/>
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-3xl"/>
+        <div className="absolute inset-0 bg-background/50 backdrop-blur-3xl"/>
       </div>
 
       {/* background ripple */}
@@ -67,6 +69,74 @@ export default function Home() {
             to listen, understand, and guide you through life's journey.
           </p>
 
+          {/* emotion slider */}
+          <motion.div 
+            className="w-full max-w-[600px] mx-auto space-y-6 py-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            <div className="space-y-2 text-center">
+              <p className="text-sm text-muted-foreground/80 font font-medium">
+                Whatever you're feeling, we're here to listen
+              </p>
+
+              {/* mood and slider */}
+              <div className="flex justify-between items-center px-2">
+                {emotions.map((em) => (
+                  <div 
+                    key={em.value}
+                    className={`transition-all duration-500 ease-out cursor-pointer hover:scale-105 ${Math.abs(emotion - em.value) < 15 ? "opacity-100 scale-110 transform-gpu" : "opacity-50 scale-100"}`}
+                    onClick={() => setEmotion(em.value)}
+                  >
+                    <div className="text-2xl transform-gpu">
+                      {em.label.split(" ")[0]}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1 font-medium">
+                      {em.label.split(" ")[1]}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* main slider */}
+            <div className="relative px-2">
+                <div className={`absolute inset-0 bg-gradient-to-r ${currentEmotion.color} to-transparent blur-2xl -z-10 transition-all duration-500`}/>
+                <Slider
+                  value={[emotion]}
+                  onValueChange={(value) => setEmotion(value[0])}
+                  min={0}
+                  max={100}
+                  step={1}
+                  className="py-4"
+                />
+            </div>
+
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground animate-pulse">
+                Slide to express how you're feeling today
+              </p>
+            </div>
+          </motion.div>
+
+          {/* call to action button */}
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{opacity:0, y:20}}
+            animate={{opacity: mounted ? 1 : 0, y:mounted ? 0 : 20}}
+            transition={{delay:0.2, duration:0.8}}
+          >
+            <Button
+              size="lg"
+              className="relative group h-12 px-8 rounded-full bg-gradient-to-r from-primary via-primary/90 to-secondary hover:to-primary shadow-lg shadow-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
+            >
+              <span className="relative z-10 font-medium flex items-center gap-2">
+                  Begin Your Journey
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"/>
+              </span>
+            </Button>
+          </motion.div>
 
       </motion.div>
     </section>
