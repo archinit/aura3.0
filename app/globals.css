@@ -45,13 +45,13 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #f7faf9;
-  --foreground: #2e3537;
+  --background: #fcfdfd;
+  --foreground: #383f42;
   --card: #f7faf9;
   --card-foreground: #2e3537;;
   --popover: #f7faf9;
   --popover-foreground: #2e3537;
-  --primary: #9bcb92;
+  --primary: #7ab899;
   --primary-foreground: #2a3d29;
   --secondary: #f3f2fa;
   --secondary-foreground: #726b8a;
@@ -80,10 +80,10 @@
 }
 
 .dark {
-  --background: #0a1014;
-  --foregroun0d: #e8ecf2;
+  --background: #04090b;
+  --foreground: #f9fafb;
   --card: #0a1014;
-  --card-foregro0und: #e8ecf2;
+  --card-foreground: #e8ecf2;
   --popover: #0a1014;
   --popover-foreground: #e8ecf2;
   --primary: #b6e2d3;
