@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { motion } from 'framer-motion';
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Heart, MessageSquare, Sparkles } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity, ArrowRight, Brain, BrainCircuit, Heart, MessageSquare, Sparkles, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+
 
 export default function DashboardPage() {
 
@@ -17,8 +19,44 @@ export default function DashboardPage() {
         return () => clearInterval(timer) //cleanup
     }, [])
 
+
+    const wellnessStats = [
+        {
+            title: "Mood Score",
+            value: "No data",
+            icon: Brain,
+            color: "text-purple-500",
+            bgColor: "bg-purple-500/10",
+            description: "Today's average mood",  
+        },
+        {
+            title: "Completion Rate",
+            value: "100%",
+            icon: Trophy,
+            color: "text-yellow-500",
+            bgColor: "bg-yellow-500/10",
+            description: "Perfect Completion Rate",  
+        },
+        {
+            title: "Therapy Sessions",
+            value: "0 sessions",
+            icon: Heart,
+            color: "text-rose-500",
+            bgColor: "bg-rose-500/10",
+            description: "Total Sessions Completed",  
+        },
+        {
+            title: "Total Activities",
+            value: "80",
+            icon: Activity,
+            color: "text-blue-500",
+            bgColor: "bg-blue-500/10",
+            description: "Planned for today",  
+        },
+    ];
+
     return <div className="min-h-screen bg-background p-8">
-        <div className="pt-20 pb-8 space-y-6 ">
+        <div id="container" className="pt-20 pb-8 space-y-6 ">
             <div className="flex flex-col gap-2">
                 <motion.div 
                     initial={{opacity:0, x: -20}}
@@ -136,8 +174,47 @@ export default function DashboardPage() {
                                                     </div>
                                                 </div>
                                         </Button>
-                                    </div>      {/* start here */}
+                                    </div>      
                                 </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* todays overview card */}
+                    <Card className="border-primary/10">
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Today&apos;s Overview</CardTitle>
+                                    <CardDescription>
+                                        Your wellness metrics for {" "} {format(new Date(), "MMMM d, yyyy")}
+                                    </CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent >
+                            <div className="grid grid-cols-2 gap-3">
+                                {wellnessStats.map((stat) => (
+                                    <div 
+                                        key={stat.title}
+                                        className={cn("p-4 rounded-lg transition-all duration-200 hover:scale-[1.01]", 
+                                            stat.bgColor
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <stat.icon className={cn("w-5 h-5", stat.color)}/>
+                                            <p className="text-sm font-medium">
+                                                {stat.title}
+                                            </p>
+                                        </div>
+                                            <p className="text-2xl font-bold mt-2">
+                                                {stat.value}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground mt-1">
+                                                {stat.description}
+                                            </p>  
+                                    </div>
+                                ))}
                             </div>
                         </CardContent>
                     </Card>
