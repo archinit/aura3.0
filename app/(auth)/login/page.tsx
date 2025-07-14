@@ -68,20 +68,20 @@ export default function LoginPage() {
                 </form>
 
                 {/* footer */}
-                <div className="flex items-center justify-center gap-2 text-sm">
+                <div className="flex items-center justify-center gap-3 text-sm">
                     <span className="text-muted-foreground">
                         Don&apos;t have an account?
                     </span>
                     <Link
                         href="/signup"
-                        className="text-primary font-semibold underline" 
+                        className="text-primary font-semibold hover:underline" 
                     >
                         Sign up
                     </Link>
                     <span className="text-muted-foreground">
                         <Link
                             href="/forgot-password"
-                            className="text-primary font-semibold underline"
+                            className="text-primary font-semibold hover:underline"
                         >
                             Forgot password?
                         </Link>

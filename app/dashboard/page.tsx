@@ -42,7 +42,7 @@ export default function DashboardPage() {
             {/* main grid layout  */}
             <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                    <Card className="border-primary/10 relative oveerflow-hidden group">
+                    <Card className="border-primary/10 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent" />
                         
                         <CardContent className="p-6 relative">
@@ -65,7 +65,7 @@ export default function DashboardPage() {
                                 <div className="grid gap-3">
                                     <Button
                                         variant="default"
-                                        className={cn (
+                                        className={cn(
                                             "w-full justify-between items-center p-6 h-auto group/button",
                                             "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
                                             "transition-all duration-200 group-hover:translate-y-[-2px]"
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                                                     </div>
                                                 </div>
                                         </Button>
-                                    </div>
+                                    </div>      {/* start here */}
                                 </div>
                             </div>
                         </CardContent>

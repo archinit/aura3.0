@@ -112,7 +112,7 @@ export default function SignupPage() {
                     </span>
                     <Link
                         href="/login"
-                        className="text-primary font-semibold underline" 
+                        className="text-primary font-semibold hover:underline" 
                     >
                         Sign in
                     </Link>
