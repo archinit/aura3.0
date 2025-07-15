@@ -3,15 +3,18 @@
 import { useEffect, useState } from "react"
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Activity, ArrowRight, Brain, BrainCircuit, Heart, MessageSquare, Sparkles, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { AnxietyGames } from "@/components/games/AnxietyGames";
 
 
 export default function DashboardPage() {
 
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [showMoodModel, setShowMoodModel] = useState(false);
     
 
     useEffect(() => {
@@ -104,7 +107,7 @@ export default function DashboardPage() {
                                     <Button
                                         variant="default"
                                         className={cn(
-                                            "w-full justify-between items-center p-6 h-auto group/button",
+                                            "w-full justify-between items-center p-6 h-auto group",
                                             "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
                                             "transition-all duration-200 group-hover:translate-y-[-2px]"
                                         )}
@@ -135,9 +138,9 @@ export default function DashboardPage() {
                                         <Button 
                                             variant="outline"
                                             className={cn(
-                                            "flex flex-col h-[120px] px-4 py-3 group/mood hover:border-primary/50",
+                                            "flex flex-col  h-[120px] px-4 py-3 group hover:border-primary/50",
                                             "justify-center items-center text-center",
-                                            "transition-all duration-200 group-hover:translate-y-[-2px]"
+                                            "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
                                             onClick={() => {}}
                                         >
@@ -158,9 +161,9 @@ export default function DashboardPage() {
                                         <Button
                                             variant="outline"
                                             className={cn(
-                                            "flex flex-col h-[120px] px-4 py-3 group/ai hover:border-primary/50",
+                                            "flex flex-col h-[120px] px-4 py-3 group hover:border-primary/50",
                                             "justify-center items-center text-center",
-                                            "transition-all duration-200 group-hover:translate-y-[-2px]"
+                                            "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
                                             onClick={() => {}}
                                         >
@@ -219,7 +222,30 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* grid anxiety games */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-3 space-y-6">
+                        {/* anxiety games */}
+                        <AnxietyGames />
+                    </div>
+                </div>
             </div>
         </div>
+
+        {/* mood tracking model */}
+        <Dialog open={showMoodModel} onOpenChange={setShowMoodModel}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>
+                        How are you feeling?
+                    </DialogTitle>
+                    <DialogDescription>
+                        Move the slider to track our current mood
+                    </DialogDescription>
+                </DialogHeader>
+                {/* moodform */}
+            </DialogContent>
+        </Dialog>
     </div>
 }

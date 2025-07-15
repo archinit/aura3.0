@@ -16,15 +16,15 @@ export const Header = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    return <div className="w-full fixed top-0 z-50 bg-background/95 backdrop-blur-lg">
-        <div className="absolute inset-0 border-b border-primary/10"></div>
-        <header className="relative max-w-full px-10 ">
+    return <div className=" w-[90%] md:w-[50%] fixed top-3 left-6 md:left-3/12 rounded-4xl z-50 backdrop-blur-lg">
+        <div className="absolute inset-0 border border-primary/30 rounded-4xl bg-background/5 "></div>
+        <header className="relative max-w-full px-5 md:px-10 ">
             <div className="flex h-16 items-center justify-between" >      {/*logo*/}
                 <Link
                 href="/"
-                className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+                className="flex items-center space-x-2 transition-opacity hover:opacity-60"
                 >
-                    <AudioWaveform className="h-8 w-8 text-primary animate-pulse-gentle"/>
+                    <AudioWaveform className="h-8 w-8 text-primary"/>
                     <div className="flex flex-col">
                         <span className="text-xl font-semibold bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">Aura3.0</span>
                     </div>
