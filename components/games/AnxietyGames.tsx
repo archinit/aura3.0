@@ -1,12 +1,14 @@
 'use client'
 
-import { Flower2, Gamepad2, Music2, TreePine, Waves, Wind } from "lucide-react";
+import { Clock3, Flower2, Gamepad2, Music2, TreePine, Waves, Wind } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { BreathingGame } from "./BreathingGame";
 import { ZenGarden } from "./ZenGarder";
+import { ForestGame } from "./ForestGame";
+import { OceanWaves } from "./OceanWaves";
 
 
 
@@ -83,9 +85,9 @@ export const AnxietyGames = ({onGamePlayed}: AnxietyGamesProps) => {
             case "garden":
                 return <ZenGarden/>;
             case "forest":
-                // return <ForestGame />;
+                return <ForestGame />;
             case "waves":
-                // return <OceanWaves />;        
+                return <OceanWaves />;        
             default:
                 return null;
         }
@@ -132,7 +134,7 @@ export const AnxietyGames = ({onGamePlayed}: AnxietyGamesProps) => {
                                                 {game.description}
                                             </p>
                                             <div className="flex ite gap-2 mt-3">
-                                                <Music2 className="h-4 w-4 text-muted-foreground" />
+                                                <Clock3 className="h-4 w-4 mt-0.5 text-muted-foreground" />
                                                 <span className="text-sm text-muted-foreground">
                                                     {game.duration}
                                                 </span>
