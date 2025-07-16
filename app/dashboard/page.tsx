@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { AnxietyGames } from "@/components/games/AnxietyGames";
 import { MoodForm } from "@/components/MoodForm";
+import { ActivityLogger } from "@/components/ActivityLogger";
 
 
 export default function DashboardPage() {
@@ -17,6 +18,7 @@ export default function DashboardPage() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [showMoodModel, setShowMoodModel] = useState(false);
     const [isSavingMood, setIsSavingMood] = useState(false);
+    const [showActivityLogger,setShowActivityLogger] = useState(false)
     
 
     useEffect(() => {
@@ -34,6 +36,10 @@ export default function DashboardPage() {
         } finally {
             setIsSavingMood(false)
         }
+    }
+
+    const handleAICheckIn = () => {
+        setShowActivityLogger(true);
     }
 
 
@@ -179,7 +185,7 @@ export default function DashboardPage() {
                                             "justify-center items-center text-center",
                                             "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
-                                            onClick={() => {}}
+                                            onClick={() => handleAICheckIn()}
                                         >
                                                 <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center mb-2">
                                                     <BrainCircuit className="w-5 h-5 text-blue-500" />
@@ -262,5 +268,14 @@ export default function DashboardPage() {
                 <MoodForm onSubmit={handleMoodSubmit} isLoading={isSavingMood}/>
             </DialogContent>
         </Dialog>
+
+
+        {/* activity logger */}
+        <ActivityLogger 
+            open={showActivityLogger}
+            onOpenChange={setShowActivityLogger}
+        />
+
+        
     </div>
 }
