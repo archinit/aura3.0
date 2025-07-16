@@ -1,6 +1,6 @@
 'use client'
 
-import { Clock3, Flower2, Gamepad2, Music2, TreePine, Waves, Wind } from "lucide-react";
+import { Clock3, Flower2, Gamepad2, TreePine, Waves, Wind } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { motion } from "framer-motion";

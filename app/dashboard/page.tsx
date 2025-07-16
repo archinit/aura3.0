@@ -9,18 +9,32 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { AnxietyGames } from "@/components/games/AnxietyGames";
+import { MoodForm } from "@/components/MoodForm";
 
 
 export default function DashboardPage() {
 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [showMoodModel, setShowMoodModel] = useState(false);
+    const [isSavingMood, setIsSavingMood] = useState(false);
     
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timer) //cleanup
     }, [])
+
+
+    const handleMoodSubmit = async (data: {moodScore: number}) => {
+        setIsSavingMood(true);
+        try {
+            setShowMoodModel(false)
+        } catch (error) {
+            console.error("Error saving mood:", error)
+        } finally {
+            setIsSavingMood(false)
+        }
+    }
 
 
     const wellnessStats = [
@@ -142,7 +156,7 @@ export default function DashboardPage() {
                                             "justify-center items-center text-center",
                                             "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
-                                            onClick={() => {}}
+                                            onClick={() => {setShowMoodModel(true)}}
                                         >
                                             <div>
                                                 <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center ml-9 mb-2">
@@ -245,6 +259,7 @@ export default function DashboardPage() {
                     </DialogDescription>
                 </DialogHeader>
                 {/* moodform */}
+                <MoodForm onSubmit={handleMoodSubmit} isLoading={isSavingMood}/>
             </DialogContent>
         </Dialog>
     </div>

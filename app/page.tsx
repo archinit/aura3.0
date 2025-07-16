@@ -64,8 +64,8 @@ export default function Home() {
   return <div className="flex flex-col min-h-screen overflow-hidden ">
     <section className="relative min-h-[90vh] mt-18 flex flex-col items-center justify-center py-12 px-4">
       <div>
-        <div className={`absolute w-[600px] h-[600px] rounded-full blur-3xl top-0 -left-20 transition-all duration-700 ease-in-out bg-gradient-to-r ${currentEmotion.color} to-transparent opacity-60`} />
-        <div className="absolute w-[500px] h-[500px] rounded-full bg-secondary/10 blur-3xl bottom-0 right-0 animate-pulse delay-700"/>
+        <div className={`absolute w-[600px] h-[600px] rounded-full blur-md top-0 -left-20 transition-all ease-in-out bg-gradient-to-r ${currentEmotion.color} to-transparent opacity-50`} />
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-secondary/10 blur-xl bottom-0 right-0 "/>
         <div className="absolute inset-0 bg-background/50 backdrop-blur-3xl"/>
       </div>
 
@@ -136,7 +136,7 @@ export default function Home() {
 
             {/* main slider */}
             <div className="relative px-2">
-                <div className={`absolute inset-0 bg-gradient-to-r ${currentEmotion.color} to-transparent blur-2xl -z-10 transition-all duration-500`}/>
+                <div className='absolute'/>
                 <Slider
                   value={[emotion]}
                   onValueChange={(value) => setEmotion(value[0])}
