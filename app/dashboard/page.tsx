@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { AnxietyGames } from "@/components/games/AnxietyGames";
 import { MoodForm } from "@/components/MoodForm";
 import { ActivityLogger } from "@/components/ActivityLogger";
+import { useRouter } from "next/navigation";
 
 
 export default function DashboardPage() {
@@ -19,6 +20,7 @@ export default function DashboardPage() {
     const [showMoodModel, setShowMoodModel] = useState(false);
     const [isSavingMood, setIsSavingMood] = useState(false);
     const [showActivityLogger,setShowActivityLogger] = useState(false)
+    const router = useRouter()
     
 
     useEffect(() => {
@@ -40,6 +42,10 @@ export default function DashboardPage() {
 
     const handleAICheckIn = () => {
         setShowActivityLogger(true);
+    }
+
+    const handleStartTherapy = () => {
+        router.push("/therapy/new");
     }
 
 
@@ -127,11 +133,11 @@ export default function DashboardPage() {
                                     <Button
                                         variant="default"
                                         className={cn(
-                                            "w-full justify-between items-center p-6 h-auto group",
+                                            "w-full justify-between cursor-pointer items-center p-6 h-auto group",
                                             "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
                                             "transition-all duration-200 group-hover:translate-y-[-2px]"
                                         )}
-                                        onClick={() => {}}
+                                        onClick={() => {handleStartTherapy()}}
                                     >
                                         <div className="flex items-center gap-3">
                                                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
@@ -158,7 +164,7 @@ export default function DashboardPage() {
                                         <Button 
                                             variant="outline"
                                             className={cn(
-                                            "flex flex-col  h-[120px] px-4 py-3 group hover:border-primary/50",
+                                            "flex flex-col cursor-pointer h-[120px] px-4 py-3 group hover:border-primary/50",
                                             "justify-center items-center text-center",
                                             "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
@@ -181,7 +187,7 @@ export default function DashboardPage() {
                                         <Button
                                             variant="outline"
                                             className={cn(
-                                            "flex flex-col h-[120px] px-4 py-3 group hover:border-primary/50",
+                                            "flex flex-col cursor-pointer h-[120px] px-4 py-3 group hover:border-primary/50",
                                             "justify-center items-center text-center",
                                             "transition-all duration-200 group-hover:translate-y-[-2px] dark:bg-[#0a1014] hover:dark:bg-primary/5"
                                             )}
