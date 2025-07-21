@@ -25,7 +25,7 @@ const activityTypes = [
 export const ActivityLogger = ({open, onOpenChange}: ActivityLoggerProps) => {
     const [type, setType] = useState("");
     const [name, setName] = useState("");
-    const [duration, setDuration] = useState("");
+    const [duration, setDuration] = useState("0");
     const [description, setDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     // const { toast } = useToast();

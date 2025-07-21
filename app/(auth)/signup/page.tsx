@@ -15,7 +15,7 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     return <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/30">
-            <Card className="w-full m-4 md:w-5/12 max-w-2xl p-6 md:p-10 rounded-3xl shadow-xl border border-primary/10 bg-card/90 backdrop-blur-md">
+            <Card className="w-full m-4 md:w-[25%] max-w-2xl p-6 md:p-10 rounded-3xl shadow-xl border border-primary/10 bg-card/90 backdrop-blur-sm">
                 <div className="mb-6 text-center">
                     <h1 className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-1 tracking-tight">
                     Sign Up
