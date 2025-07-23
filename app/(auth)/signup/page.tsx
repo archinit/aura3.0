@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { registerUser } from "@/lib/api/auth";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignupPage() {
@@ -13,6 +15,28 @@ export default function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+        setLoading(true);
+        try {
+            await registerUser(name, email, password);
+            router.push("/login")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setError(error.message || "Signup failed. Please try again.")
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/30">
             <Card className="w-full m-4 md:w-[25%] max-w-2xl p-6 md:p-10 rounded-3xl shadow-xl border border-primary/10 bg-card/90 backdrop-blur-sm">
@@ -26,7 +50,7 @@ export default function SignupPage() {
                 </div>
 
                 {/* form component */}
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-3">
                         <div>
                             <label htmlFor="text" className="block text-base font-semibold ">
@@ -99,9 +123,13 @@ export default function SignupPage() {
                             </div>
                         </div>
                     </div>
+                    {error && (
+                        <p className="text-red-500 text-sm text-center">{error}</p>
+                    )}
                         {/* button */}
-                        <Button type="button" size="lg" className="w-full py-2 text-base rounded-lg font-bold bg-gradient-to-r from-primary to-primary/80 shadow-md hover:from-primary/80 hover:to-primary" >
-                            Sign Up
+                        <Button type="submit" size="lg" className="w-full py-2 text-base rounded-lg font-bold bg-gradient-to-r from-primary to-primary/80 shadow-md hover:from-primary/80 hover:to-primary" >
+                            {loading ? "Signing Up..." : "Sign Up"}
+                            
                         </Button>
                 </form>
 

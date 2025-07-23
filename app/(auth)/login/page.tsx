@@ -1,16 +1,49 @@
 'use client'
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Lock, Mail } from "lucide-react";
+import { loginUser } from "@/lib/api/auth";
+import { useSession } from "@/lib/contexts/session-context";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const {checkSession} = useSession();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("")
+
+        try {
+            const res = await loginUser(email, password);
+
+            localStorage.setItem("token", res.token);
+
+            await checkSession();
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, 100);
+            });
+
+            router.push("/dashboard");
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err:any) {
+            setError(err instanceof Error ? err.message : "invalid email or password. Please try again")
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/30">
             <Card className="w-full m-4 md:w-[25%] max-w-2xl p-6 md:p-10 rounded-3xl shadow-xl border border-primary/10 bg-card/90 backdrop-blur-md">
@@ -24,7 +57,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* form component */}
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-3">
                         <div>
                             <label htmlFor="email" className="block text-base font-semibold">
@@ -61,9 +94,12 @@ export default function LoginPage() {
                             </div>
                         </div>
                     </div>
+                    {error && (
+                        <p className="text-red-500 text-sm text-center">{error}</p>
+                    )}
                         {/* button */}
-                        <Button type="button" size="lg" className="w-full py-2 text-base rounded-lg font-bold bg-gradient-to-r from-primary to-primary/80 shadow-md hover:from-primary/80 hover:to-primary" >
-                            Sign In
+                        <Button type="submit" size="lg" className="w-full py-2 text-base rounded-lg font-bold bg-gradient-to-r from-primary to-primary/80 shadow-md hover:from-primary/80 hover:to-primary" >
+                            {loading ? "Signing In..." : "Sign In"}
                         </Button>
                 </form>
 

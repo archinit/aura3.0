@@ -8,8 +8,13 @@ import { ArrowRight, Waves, HeartPulse, Lightbulb, Lock, MessageSquareHeart } fr
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useSession } from "@/lib/contexts/session-context"
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const { isAuthenticated } = useSession();
+  const router = useRouter();
 
   const emotions = [
     {value:0, label:  "😔 Down", color:"from-blue-500/60"},
@@ -163,7 +168,10 @@ export default function Home() {
           >
             <Button
               size="lg"
-              className="relative group h-12 px-8 rounded-full bg-gradient-to-r from-primary via-primary/90 to-secondary hover:to-primary shadow-lg shadow-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
+              className="relative group h-12 px-8 rounded-full bg-gradient-to-r from-primary via-primary/90 to-secondary hover:to-primary shadow-lg shadow-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30 cursor-pointer"
+              onClick={() => {
+                router.push(isAuthenticated ? "/dashboard" : "/login")}
+              }
             >
               <span className="relative z-10 font-medium flex items-center gap-2">
                   Begin Your Journey

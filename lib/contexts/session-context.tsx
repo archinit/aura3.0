@@ -19,6 +19,7 @@ interface SessionContextType {
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
+const API_URL = process.env.BACKEND_API_URL || 'http://localhost:3001';
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -40,7 +41,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       }
 
       console.log("SessionContext: Fetching user data...");
-      const response = await fetch("/api/auth/me", {
+      const response = await fetch(`${API_URL}/api/user/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -73,7 +74,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await fetch("/api/auth/logout", {
+        await fetch(`${API_URL}/api/user/logout`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

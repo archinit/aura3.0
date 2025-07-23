@@ -1,13 +1,16 @@
 'use client'
 
 import Link from "next/link"
-import { AudioWaveform, Menu, X } from "lucide-react"
+import { AudioWaveform, LogOut, Menu, MessageCircle, X } from "lucide-react"
 import { ThemeToggle } from "./ThemeToggle"
 import { SignInButton } from "./SignInButton"
 import { useState } from "react"
 import { Button } from "./ui/button"
+import { useSession } from "@/lib/contexts/session-context"
 
 export const Header = () => {
+
+    const { isAuthenticated, logout } = useSession();
 
     const navItems = [
         { href: "/features", label:"Features" },
@@ -49,7 +52,29 @@ export const Header = () => {
                     </nav>
                     <div className="flex items-center gap-3">
                         <ThemeToggle/>
-                        <SignInButton/>
+
+                        {isAuthenticated ? (
+                            <>
+                            <Button asChild className="hidden md:flex gap-2 bg-primary/90 hover:bg-primary" >
+                                <Link href="/therapy/new">
+                                <MessageCircle className="w-4 h-4 mr-1" />
+                                    Start Chat
+                                </Link>
+                            </Button>
+
+                            <Button
+                                variant="outline"
+                                onClick={logout}
+                                className="text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                <LogOut className="w-4 h-4 mr-2"/>
+                                    Sign out
+                                
+                            </Button>
+                            </>
+                        ) : (
+                            <SignInButton/>
+                        )}
                         <Button
                             variant="ghost"
                             size="icon"

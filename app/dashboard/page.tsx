@@ -12,9 +12,12 @@ import { AnxietyGames } from "@/components/games/AnxietyGames";
 import { MoodForm } from "@/components/MoodForm";
 import { ActivityLogger } from "@/components/ActivityLogger";
 import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/contexts/session-context"
 
 
 export default function DashboardPage() {
+
+    const { user } = useSession();
 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [showMoodModel, setShowMoodModel] = useState(false);
@@ -94,7 +97,7 @@ export default function DashboardPage() {
                     className="flex flex-col gap-2"
                 >
                     <h1 className="text-4xl font-bold">
-                        Welcome Back
+                        Welcome Back, {user?.name || "there"}
                     </h1>
                     <p className="text-muted-foreground text-sm">
                         {currentTime.toLocaleDateString("en-US", {
