@@ -43,7 +43,7 @@ export interface ApiResponse {
 
 const API_BASE =
   process.env.BACKEND_API_URL ||
-  "yourAPI_URL";
+  "http://localhost:3001";
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {
@@ -57,7 +57,7 @@ const getAuthHeaders = () => {
 export const createChatSession = async (): Promise<string> => {
   try {
     console.log("Creating new chat session...");
-    const response = await fetch(`${API_BASE}/chat/sessions`, {
+    const response = await fetch(`${API_BASE}/api/chat/sessions`, {
       method: "POST",
       headers: getAuthHeaders(),
     });
@@ -84,7 +84,7 @@ export const sendChatMessage = async (
   try {
     console.log(`Sending message to session ${sessionId}:`, message);
     const response = await fetch(
-      `${API_BASE}api/chat/sessions/${sessionId}/messages`,
+      `${API_BASE}/api/chat/sessions/${sessionId}/messages`,
       {
         method: "POST",
         headers: getAuthHeaders(),
