@@ -14,6 +14,9 @@ export async function GET(req: NextRequest) {
 
         const decoded = jwt.verify
     } catch (error) {
-        
+        NextResponse.json(
+            {msg: "Internal Server Error"}, 
+            {status: 500}
+        );
     }
 }
