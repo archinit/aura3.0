@@ -182,3 +182,24 @@ export const getAllChatSessions = async (): Promise<ChatSession[]> => {
     throw error;
   }
 };
+
+export const deleteChatSession = async (sessionId: string): Promise<void> => {
+  try {
+    console.log(`Deleting chat session ${sessionId}...`);
+    const response = await fetch(`${API_BASE}/api/chat/sessions/${sessionId}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Failed to delete chat session:", error);
+      throw new Error(error.error || "Failed to delete chat session");
+    }
+
+    console.log("Chat session deleted successfully");
+  } catch (error) {
+    console.error("Error deleting chat session:", error);
+    throw error;
+  }
+};

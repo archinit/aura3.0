@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { Bot, Loader2, MessageSquare, PlusCircle, Send, Sparkles, User } from 'lucide-react';
+import { Bot, Loader2, MessageSquare, PlusCircle, Send, Sparkles, User, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { createChatSession, sendChatMessage, getChatHistory, getAllChatSessions, ChatSession, } from "@/lib/api/chat";
+import { createChatSession, sendChatMessage, getChatHistory, getAllChatSessions, ChatSession, deleteChatSession, } from "@/lib/api/chat";
 import { formatDistanceToNow } from "date-fns";
 import {  useParams } from 'next/navigation';
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -97,7 +97,7 @@ export default function TherapyPage() {
     }, [sessionId]);
     
     
-    // Load all chat sessions
+   // Load all chat sessions
     useEffect(() => {
         const loadSessions = async () => {
             try {
@@ -181,7 +181,7 @@ export default function TherapyPage() {
                 },
             };
 
-            setMessages((prev) => [...prev, userMessage, assistantMessage]);
+            setMessages((prev) => [...prev, assistantMessage]);
             setIsTyping(false);
             scrollToBottom();
 
@@ -234,10 +234,22 @@ export default function TherapyPage() {
     }
   };
 
+  const handleDeleteSession = async (sessionIdToDelete: string) => {
+    try {
+      await deleteChatSession(sessionIdToDelete);
+      setSessions((prev) => prev.filter((s) => s.sessionId !== sessionIdToDelete));
+      if (sessionId === sessionIdToDelete) {
+        handleNewSession();
+      }
+    } catch (error) {
+      console.error("Failed to delete session:", error);
+    }
+  };
+
 
     return <div className='relative max-w-7xl mx-auto px-4'>
         <div className='flex h-[calc(100vh-4rem)] mt-21 gap-6 '>
-            <div className="w-80 hidden md:flex flex-col border-r bg-muted/30 ">
+            <div className="w-80 hidden md:flex flex-col border-r bg-muted/30 overflow-hidden">
                 <div className="p-4 border-b">
                     <div className="flex items-center justify-between mb-4">
                         <h2  className="text-lg font-semibold">
@@ -277,18 +289,31 @@ export default function TherapyPage() {
                                 <div
                                     key={session.sessionId}
                                     className={cn(
-                                        "p-3 rounded-lg text-sm cursor-pointer hover:bg-primary/5 transition-colors",
+                                        "p-3 rounded-lg text-sm cursor-pointer hover:bg-primary/5 transition-colors group relative",
                                         session.sessionId === sessionId
                                         ? "bg-primary/10 text-primary"
                                         : "bg-secondary/10"
                                     )}
                                     onClick={() => handleSessionSelect(session.sessionId)}
                                 >
-                                <div className="flex items-center gap-2 mb-1">
+                                <div className="flex items-center justify-between gap-2 mb-1">
+                                    <div className='flex items-center gap-2'>
                                     <MessageSquare className="w-4 h-4" />
                                     <span className="font-medium">
                                     {session.messages[0]?.content.slice(0, 30) || "New Chat"}
                                     </span>
+                                    </div>
+                                    <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 opacity-0 group-hover:opacity-100 absolute top-2 right-2"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteSession(session.sessionId);
+                                    }}
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </Button>
                                 </div>
                                 <p className="line-clamp-2 text-muted-foreground">
                                     {session.messages[session.messages.length - 1]?.content ||
@@ -368,12 +393,12 @@ export default function TherapyPage() {
                         </div>
                     </div>
                 ) : (
-                 <div>
-                    <div>
+                 <ScrollArea className='flex-1 overflow-hidden '>
+                    <div className='space-y-0'>
                         <AnimatePresence initial={false}>
                             {messages.map((msg) => (
                                 <motion.div 
-                                    key={msg.timestamp.toISOString()}
+                                    key={msg.id}
                                     initial={{opacity:0, y: 20}}
                                     animate={{opacity: 1, y: 0}}
                                     transition={{duration:0.3}}
@@ -429,64 +454,60 @@ export default function TherapyPage() {
                         )}
                         <div ref={messagesEndRef} />
                     </div>
-                 </div>   
+                 </ScrollArea >   
                 )}
 
                 {/* input to submit */}
                 
-                <div className='border-t bg-background/50 backdrop-blur supports-[backdrop-filter]:bg-background/50 p-4 sticky bottom-0 z-10'>
+                <div className="border-t bg-background/50 backdrop-blur supports-[backdrop-filter]:bg-background/50 p-4">
                     <form
-                        onSubmit={handleSubmit}
-                        className="max-w-3xl md:max-w-4xl mx-auto flex gap-4 items-end relative"
-                        >
-                        <div className="flex-1 relative group">
-                            <textarea
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder={
-                                isChatPaused
-                                ? "Complete the activity to continue..."
-                                : "Ask me anything..."
+                    onSubmit={handleSubmit}
+                    className="max-w-3xl mx-auto flex gap-4 items-end relative"
+                    >
+                    <div className="flex-1 relative group">
+                        <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder={
+                            isChatPaused
+                            ? "Complete the activity to continue..."
+                            : "Ask me anything..."
+                        }
+                        className={cn(
+                            "w-full resize-none rounded-2xl border bg-background",
+                            "p-3 pr-12 min-h-[48px] max-h-[200px]",
+                            "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                            "transition-all duration-200",
+                            "placeholder:text-muted-foreground/70",
+                            (isTyping || isChatPaused) &&
+                            "opacity-50 cursor-not-allowed"
+                        )}
+                        rows={1}
+                        disabled={isTyping || isChatPaused}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSubmit(e);
                             }
-                            className={cn(
-                                "w-full resize-none rounded-2xl border bg-background",
-                                "p-5  pr-12 min-h-[48px] max-h-[200px]",
-                                "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                                "transition-all duration-200",
-                                "placeholder:text-muted-foreground/70",
-                                (isTyping || isChatPaused) &&
-                                "opacity-50 cursor-not-allowed "
-                            )}
-                            rows={1}
-                            disabled={isTyping || isChatPaused}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSubmit(e);
-                                }
-                            }}
-                            />
-                            <Button
-                            type="submit"
-                            size="icon"
-                            className={cn(
-                                "absolute right-1.5 bottom-3.5 h-[36px] w-[36px] mb-2 mr-4",
-                                "rounded-xl transition-all duration-200",
-                                "bg-primary hover:bg-primary/90",
-                                "shadow-sm shadow-primary/20",
-                                (isTyping || isChatPaused || !message.trim()) &&
-                                "opacity-50 cursor-not-allowed",
-                                "group-hover:scale-105 group-focus-within:scale-105"
-                            )}
-                            disabled={isTyping || isChatPaused || !message.trim()}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleSubmit(e);
-                            }}
-                            >
-                            <Send className="w-4 h-4" />
-                            </Button>
-                        </div>
+                        }}
+                        />
+                        <Button
+                        type="submit"
+                        size="icon"
+                        className={cn(
+                            "absolute right-1.5 bottom-3.5 h-[36px] w-[36px]",
+                            "rounded-xl transition-all duration-200",
+                            "bg-primary hover:bg-primary/90",
+                            "shadow-sm shadow-primary/20",
+                            (isTyping || isChatPaused || !message.trim()) &&
+                            "opacity-50 cursor-not-allowed",
+                            "group-hover:scale-105 group-focus-within:scale-105"
+                        )}
+                        disabled={isTyping || isChatPaused || !message.trim()}
+                        >
+                        <Send className="w-4 h-4" />
+                        </Button>
+                    </div>
                     </form>
                 </div>
             </div>

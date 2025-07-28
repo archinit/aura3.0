@@ -1,22 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(req: NextRequest) {
-    try {
-        const sessionToken = req.headers.get("Authorization")?.split(" ")[1];
-
-        if (!sessionToken) {
-            return NextResponse.json(
-                { isAuthenticated: false, user: null },
-                { status: 401 }
-            );
-        }
-
-        const decoded = jwt.verify
-    } catch (error) {
-        NextResponse.json(
-            {msg: "Internal Server Error"}, 
-            {status: 500}
-        );
-    }
+  try {
+    // For now, return a mock authenticated session
+    // In a real app, you would validate the session token and return the actual user data
+    return NextResponse.json({
+      isAuthenticated: true,
+      user: {
+        id: "1",
+        name: "Test User",
+        email: "test@example.com",
+      },
+    });
+  } catch (error) {
+    console.error("Error getting auth session:", error);
+    return NextResponse.json(
+      { error: "Failed to get auth session" },
+      { status: 500 }
+    );
+  }
 }

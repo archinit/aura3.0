@@ -121,4 +121,13 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  [data-slot="scroll-area-scrollbar"] {
+    --border-color: hsl(0 0% 0% / 0.1);
+    border-left-color: var(--border-color) !important;
+  }
+
+  .dark [data-slot="scroll-area-scrollbar"] {
+    --border-color: hsl(0 0% 100% / 0.1);
+  }
 }
