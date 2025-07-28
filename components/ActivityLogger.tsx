@@ -27,6 +27,7 @@ export const ActivityLogger = ({open, onOpenChange}: ActivityLoggerProps) => {
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("0");
     const [description, setDescription] = useState("");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState(false);
     // const { toast } = useToast();
 

@@ -19,7 +19,7 @@ export const Header = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    return <div className=" w-[90%] md:w-[50%] fixed top-3 left-6 md:left-3/12 rounded-4xl z-50 backdrop-blur-lg">
+    return <div className=" w-[90%] md:w-[80%] lg:w-[50%] fixed top-3 left-6 md:left-[10%] lg:left-[25%]  rounded-4xl z-50 backdrop-blur-lg">
         <div className="absolute inset-0 border border-primary/30 rounded-4xl bg-background/5 "></div>
         <header className="relative max-w-full px-5 md:px-10 ">
             <div className="flex h-16 items-center justify-between" >      {/*logo*/}
@@ -35,7 +35,7 @@ export const Header = () => {
 
                 {/* navitems */}
                 <div className="flex items-center gap-4">
-                    <nav className="hidden md:flex items-center space-x-1">
+                    <nav className="hidden lg:flex items-center space-x-1">
                         {navItems.map((item)=>{
                             return (
                                 <Link
