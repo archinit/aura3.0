@@ -275,7 +275,7 @@ export default function DashboardPage() {
                     </DialogDescription>
                 </DialogHeader>
                 {/* moodform */}
-                <MoodForm onSubmit={handleMoodSubmit} isLoading={isSavingMood}/>
+                <MoodForm onSuccess={() => setShowMoodModel(false)} />
             </DialogContent>
         </Dialog>
 

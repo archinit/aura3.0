@@ -4,10 +4,10 @@ const API_URL = process.env.BACKEND_API_URL || "youAPI_URL";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     const body = await req.json();
     const { message } = body;
 

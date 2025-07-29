@@ -3,10 +3,10 @@ import { deleteChatSession } from "@/lib/api/chat";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     await deleteChatSession(sessionId);
     return NextResponse.json({ message: "Session deleted" });
   } catch (error) {

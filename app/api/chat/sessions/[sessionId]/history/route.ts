@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.BACKEND_API_URL || "youAPI_URL";
 
-export async function GET (req: NextRequest, {params}: { params: {sessionId: string}} ) {
+export async function GET (req: NextRequest, {params}: { params: Promise<{ sessionId: string }>} ) {
     try {
-        const { sessionId } = params;
+        const { sessionId } = await params;
         console.log(`Getting Chat history for session ${sessionId}`);
         
         const res = await fetch(`${API_URL}/chat/sessions/${sessionId}/history`,

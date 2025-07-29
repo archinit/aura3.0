@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { Pause, Play, Waves, Volume2, VolumeX } from "lucide-react";
