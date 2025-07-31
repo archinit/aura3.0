@@ -11,7 +11,7 @@ interface MoodFormProps {
         onSuccess?: () => void
 }
 
-const API_URL = process.env.BACKEND_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'yourAPI';
 export const MoodForm = ({ onSuccess }: MoodFormProps) => {
 
     const [moodScore, setMoodScore] = useState(50);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URL = process.env.BACKEND_API_URL || "youAPI_URL";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || "youAPI_URL";
 
 export async function POST(
   req: NextRequest,
@@ -20,7 +20,7 @@ export async function POST(
 
     console.log(`Sending message to session ${sessionId}:`, message);
     const response = await fetch(
-      `${API_URL}/chat/sessions/${sessionId}/messages`,
+      `${API_URL}/api/chat/sessions/${sessionId}/messages`,
       {
         method: "POST",
         headers: {

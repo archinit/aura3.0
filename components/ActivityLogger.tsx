@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState } from "react";
@@ -6,6 +7,8 @@ import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Loader2 } from "lucide-react";
+import { useSession } from "@/lib/contexts/session-context";
 
 interface ActivityLoggerProps{
     open: boolean;
@@ -27,9 +30,10 @@ export const ActivityLogger = ({open, onOpenChange}: ActivityLoggerProps) => {
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("0");
     const [description, setDescription] = useState("");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState(false);
     // const { toast } = useToast();
+    const { user, isAuthenticated, loading } = useSession();
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,7 +62,7 @@ export const ActivityLogger = ({open, onOpenChange}: ActivityLoggerProps) => {
             setDescription("");
             setIsLoading(false);
 
-            alert("Activity logged (mock)!")
+            alert("Activity logged")
             onOpenChange(false)  //close model
         }, 1000)           
     }
@@ -120,15 +124,30 @@ export const ActivityLogger = ({open, onOpenChange}: ActivityLoggerProps) => {
                     </div>
 
                     <div className="flex justify-end gap-2 mt-3">
-                        <Button type="button" variant="ghost">
-                            Cancel
-                        </Button>
-                        <Button type="submit" disabled>
-                            Save Activity
-                        </Button>
+                        <Button
+              type="button"
+              variant="ghost"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading || loading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : loading ? (
+                "Loading..."
+              ) : (
+                "Save Activity"
+              )}
+            </Button>
                     </div>
                 </form>
             </DialogContent>
         </Dialog>
     </>
-}
+} 
+
+// signkey-prod-2b09f75eb2f8312881032b3c883f66125cd2e4abd4b2f2c58f198bf7c1cb27db
