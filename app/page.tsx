@@ -24,6 +24,7 @@ export default function Home() {
     {value:100, label:  "🤩 Excited", color:"from-pink-500/60"},
   ];
 
+  
   const features = [
     {
       icon: HeartPulse,
